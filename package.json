@@ -1,0 +1,45 @@
+{
+  "name": "ms-chromium-edge-driver",
+  "version": "0.0.1",
+  "keywords": [
+    "msedgedriver",
+    "webdriver",
+    "selenium"
+  ],
+  "description": "NPM wrapper for Webdriver Chromium-based Edge driver",
+  "main": "lib/install.js",
+  "bin": {
+    "msedgedriver": "./bin/msedgedriver"
+  },
+  "typings": "lib/install.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "repository": "git@github.com:dmlemeshko/ms-edge-driver.git",
+  "author": "<dima.inpsired@gmail.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/extract-zip": "^1.6.2",
+    "@types/got": "^9.6.9",
+    "@types/lodash": "^4.14.149",
+    "@types/node": "^13.9.2",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "install": "node lib/install.js",
+    "build": "tsc",
+    "devBuild": "rm -rf lib bin && tsc -p .",
+    "prepare" : "npm run build",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "dependencies": {
+    "extract-zip": "^1.6.7",
+    "lodash": "4.17.15",
+    "got": "^10.6.0",
+    "tslint": "^6.1.0",
+    "tslint-config-prettier": "^1.18.0",
+    "util": "^0.12.2",
+    "windows-registry": "^0.1.5"
+  }
+}

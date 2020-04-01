@@ -15,6 +15,8 @@ const arch: string = process.arch;
 let edgeDriverVersion = process.env.npm_config_edge_driver_version || process.env.EDGE_DRIVER_VERSION;
 let edgeBinaryPath = process.env.npm_config_edge_binary_path || process.env.EDGE_BINARY_PATH;
 let edgeDriverPath = process.env.npm_config_edge_driver_path || process.env.EDGE_DRIVER_PATH;
+const forceDownload = process.env.npm_config_edgedriver_force_download || process.env.EDGEDRIVER_FORCE_DOWNLOAD;
+const edgePathFile = 'paths.json';
 
 const extractZipAsync = promisify(extract);
 const pipelineAsync = promisify(pipeline);
@@ -70,6 +72,13 @@ const getBrowser = async () => {
         process.stdout.write(`Microsoft Edge installed. Version is not recognized, using LATEST\n`);
         data.version = 'LATEST';
       }
+
+      // override driver version if it is provided
+      if (typeof edgeDriverVersion !== 'undefined') {
+        process.stdout.write(`Custom driver version defined: ${edgeDriverVersion}\n`);
+        data.version = edgeDriverVersion;
+      }
+
       return data;
     } else {
       // failed to fetch binary data
@@ -136,7 +145,7 @@ const installDriver = async () => {
   const binaryData = await getBrowser();
   let driverPath = findDriverInPath();
 
-  if (!driverPath) {
+  if (forceDownload || !driverPath) {
     const isDowloaded = await downloadDriver(binaryData.version);
     driverPath = await getBinary(isDowloaded);
   }
@@ -144,4 +153,13 @@ const installDriver = async () => {
   return { browserPath: binaryData.path, driverPath };
 };
 
-export { installDriver };
+const paths = () => {
+  if (Fs.existsSync(edgePathFile)) {
+    const rawdata = Fs.readFileSync(edgePathFile);
+    return JSON.parse(rawdata.toString()) as { browserPath: string; driverPath: string };
+  } else {
+    return { browserPath: edgeBinaryPath, driverPath: edgeDriverPath };
+  }
+};
+
+export { installDriver, paths };

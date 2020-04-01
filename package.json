@@ -29,7 +29,7 @@
     "install": "node lib/install.js",
     "build": "tsc",
     "devBuild": "rm -rf lib bin && tsc -p .",
-    "prepare" : "npm run build",
+    "prepare": "npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"
   },

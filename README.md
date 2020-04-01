@@ -10,6 +10,16 @@ The module detects Edge browser version, installed on the local system and downl
 npm install ms-chromium-edge-driver
 ```
 
+Or download the source and run
+
+```shell
+node lib/install.js
+```
+
+The package fetches MS Edge browser binary for path and version. Then it downloads the driver of the same version.
+
+The package supports MacOS(darwin) and Windows. Linux based platforms are not supported since there is no MS Edge browser released on it yet.
+
 ## Usage
 
 ```typescript
@@ -34,8 +44,42 @@ To use a mirror of the MSEdgeDriver binaries use PATH variable `EDGE_DRIVER_CDNU
 Default is `https://msedgedriver.azureedge.net`.
 
 ```shell
-EDGE_DRIVER_CDNURL=https://<mirror address> npm install chromedriver
+EDGE_DRIVER_CDNURL=https://<mirror address> npm install ms-chromium-edge-driver
 ```
+
+## Custom browser binary path and driver version
+
+To override the default binary path use the npm config property `npm_config_edge_binary_path`.
+
+```shell
+npm install ms-chromium-edge-driver --npm_config_edge_binary_path=/path/to/Microsoft Edge
+```
+
+Another option is to use the PATH variable `EDGE_BINARY_PATH`
+
+```shell
+EDGE_BINARY_PATH=C:\\Program Files (x86)\\Microsoft\\Edge\\Application
+```
+
+On Windows there is an option to pass custom HKEY by using the PATH variable `EDGE_HKEY`:
+
+```shell
+EDGE_HKEY=SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\Current\\Version\\Uninstall\\Microsoft Edge
+```
+
+In addition, custom driver version can be specified with the npm config property `npm_config_edge_driver_version`
+
+```shell
+npm install ms-chromium-edge-driver --npm_config_edge_driver_version=80.0.361.103
+```
+
+Another option is to use the PATH variable `EDGE_DRIVER_VERSION`
+
+```shell
+EDGE_DRIVER_VERSION=80.0.361.103
+```
+
+If both browser binary path and version are provided, the package will skip binary fetch step and start with the driver download.
 
 ## Custom driver binary
 
@@ -56,6 +100,8 @@ Another option is to use the PATH variable `EDGE_DRIVER_PATH`
 ```shell
 EDGE_DRIVER_PATH=/path/to/msedgedriver.exe
 ```
+
+If both the binary path and driver path are provided, the package will return it skipping browser fetching and driver download steps.
 
 ## License
 

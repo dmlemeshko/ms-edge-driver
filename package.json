@@ -1,17 +1,17 @@
 {
   "name": "ms-chromium-edge-driver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "msedgedriver",
     "webdriver",
     "selenium"
   ],
   "description": "NPM wrapper for Webdriver Chromium-based Edge driver",
-  "main": "lib/install.js",
+  "main": "lib/index.js",
   "bin": {
     "msedgedriver": "./bin/msedgedriver"
   },
-  "typings": "lib/install.d.ts",
+  "typings": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],

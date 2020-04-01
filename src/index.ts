@@ -94,13 +94,10 @@ const getBrowser = async () => {
 };
 
 const downloadDriver = async (version: string) => {
-  if (version === 'LATEST') {
-    process.stdout.write(`Getting the latest driver version\n`);
-    const response = await got.get(`${cdnUrl}/LATEST_STABLE`);
+  const versionMatcher = version === 'LATEST' ? 'LATEST_STABLE' : `LATEST_RELEASE_${version.split('.')[0]}`;
+  const response = await got.get(`${cdnUrl}/${versionMatcher}`);
 
-    version = response.body.replace(/[^\d.]/g, '');
-  }
-
+  version = response.body.replace(/[^\d.]/g, '');
   process.stdout.write(`Downloading MS Edge Driver ${version}...\n`);
 
   const downloadUrl = `${cdnUrl}/${version}/edgedriver_${osName}.zip`;

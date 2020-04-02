@@ -1,5 +1,6 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import { join } from 'path';
 import * as _ from 'lodash';
 const execAsync = promisify(exec);
 const DEFAULT_EDGE_BINARY_PATH = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
@@ -7,6 +8,7 @@ const DEFAULT_EDGE_HKEY =
   '\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}';
 
 const getBrowserBinaryOnWin = () => {
+  const fileName = 'msedge.exe';
   const edgeBinaryHKey = process.env.EDGE_HKEY || DEFAULT_EDGE_HKEY;
   let key;
   let subKey;
@@ -17,7 +19,7 @@ const getBrowserBinaryOnWin = () => {
     subKey = key.openSubKey(edgeBinaryHKey, windef.KEY_ACCESS.KEY_READ);
     const path = subKey.getValue('location') as string;
     const version = subKey.getValue('pv') as string;
-    return { path, version };
+    return { path: join(path, fileName), version };
   } catch (err) {
     process.stdout.write(`MS Edge browser is not found in registry: ${err.stderr} \n`);
   } finally {

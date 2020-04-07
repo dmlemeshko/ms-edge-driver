@@ -8,12 +8,12 @@ import { pipeline } from 'stream';
 import * as extract from 'extract-zip';
 import { getBrowserData } from './browser';
 import { osName, isSupportedPlatform, isWin } from './os';
-const cdnUrl = process.env.EDGE_DRIVER_CDNURL || 'https://msedgedriver.azureedge.net';
+const cdnUrl = process.env.EDGEDRIVER_CDNURL || 'https://msedgedriver.azureedge.net';
 const mainDir = resolve(__dirname, '..');
 const outFile = 'msedgedriver.zip';
-let edgeDriverVersion = process.env.npm_config_edge_driver_version || process.env.EDGE_DRIVER_VERSION;
+let edgeDriverVersion = process.env.npm_config_edgedriver_version || process.env.EDGEDRIVER_VERSION;
 let edgeBinaryPath = process.env.npm_config_edge_binary_path || process.env.EDGE_BINARY_PATH;
-let edgeDriverPath = process.env.npm_config_edge_driver_path || process.env.EDGE_DRIVER_PATH;
+let edgeDriverPath = process.env.npm_config_edgedriver_path || process.env.EDGEDRIVER_PATH;
 const forceDownload = process.env.npm_config_edgedriver_force_download || process.env.EDGEDRIVER_FORCE_DOWNLOAD;
 const edgePathFile = 'paths.json';
 

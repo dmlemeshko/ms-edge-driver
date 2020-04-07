@@ -6,12 +6,11 @@ import got from 'got';
 import { resolve } from 'path';
 import { pipeline } from 'stream';
 import * as extract from 'extract-zip';
-import { getBrowserBinaryOnWin, getBrowserBinaryOnMac } from './browser';
+import { getBrowserData } from './browser';
+import { osName, isSupportedPlatform, isWin } from './os';
 const cdnUrl = process.env.EDGE_DRIVER_CDNURL || 'https://msedgedriver.azureedge.net';
 const mainDir = resolve(__dirname, '..');
 const outFile = 'msedgedriver.zip';
-const platform: string = process.platform;
-const arch: string = process.arch;
 let edgeDriverVersion = process.env.npm_config_edge_driver_version || process.env.EDGE_DRIVER_VERSION;
 let edgeBinaryPath = process.env.npm_config_edge_binary_path || process.env.EDGE_BINARY_PATH;
 let edgeDriverPath = process.env.npm_config_edge_driver_path || process.env.EDGE_DRIVER_PATH;
@@ -21,42 +20,16 @@ const edgePathFile = 'paths.json';
 const extractZipAsync = promisify(extract);
 const pipelineAsync = promisify(pipeline);
 
-enum OS {
-  WIN32 = 'win32',
-  WIN64 = 'win64',
-  MAC32 = 'mac32',
-  MAC64 = 'mac64',
-  LINUX = 'linux',
-}
-
-const getOS = (): OS => {
-  if (platform === 'win32') {
-    return arch === 'x64' ? OS.WIN64 : OS.WIN32;
-  } else if (platform === 'darwin') {
-    return arch === 'x64' ? OS.MAC64 : OS.MAC32;
-  } else {
-    return OS.LINUX;
-  }
-};
-
 const isStringNotEmpty = (value: any) => {
-  return typeof value === 'string' && value.length > 0;
+  return typeof edgeDriverVersion !== 'undefined' && typeof value === 'string' && value.length > 0;
 };
 
 const isBrowserPathDefined = () => isStringNotEmpty(edgeBinaryPath);
 const isVersionDefined = () => isStringNotEmpty(edgeDriverVersion);
 const isDriverPathDefined = () => isStringNotEmpty(edgeDriverPath);
 
-const osName = getOS();
-
-const isWin = (): boolean => {
-  return [OS.WIN32, OS.WIN64].includes(osName);
-};
-
-const fileName = isWin() ? 'msedgedriver.exe' : 'msedgedriver';
-
 const getBrowser = async () => {
-  if (![OS.WIN32, OS.WIN64, OS.MAC64].includes(osName)) {
+  if (!isSupportedPlatform()) {
     process.stdout.write(`MS does not provide driver for ${osName} platform\n`);
     process.exit(1);
   }
@@ -64,7 +37,7 @@ const getBrowser = async () => {
   if (typeof edgeBinaryPath !== 'undefined' && typeof edgeDriverVersion !== 'undefined') {
     return { path: edgeBinaryPath, version: edgeDriverVersion };
   } else {
-    const data = isWin() ? getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
+    const data = await getBrowserData(edgeBinaryPath);
     if (data) {
       if (data.version) {
         process.stdout.write(`Microsoft Edge installed. Version: ${data.version}\n`);
@@ -112,7 +85,7 @@ const downloadDriver = async (version: string) => {
   }
 };
 
-const getBinary = async (downloaded: boolean) => {
+const getBinary = async (downloaded: boolean, fileName: string) => {
   if (!downloaded) {
     process.stdout.write(`Driver was not downloaded\n`);
     process.exit(1);
@@ -129,28 +102,29 @@ const getBinary = async (downloaded: boolean) => {
   return resolve(extractPath, fileName);
 };
 
-const findDriverInPath = () => {
+const findDriverInPath = (fileName: string) => {
   const driverPath = resolve(mainDir, 'bin', fileName);
   return Fs.existsSync(driverPath) ? driverPath : null;
 };
 
-const installDriver = async () => {
+export const installDriver = async () => {
   if (isBrowserPathDefined() && isDriverPathDefined()) {
     return { browserPath: edgeBinaryPath, driverPath: edgeDriverPath };
   }
 
+  const fileName = isWin() ? 'msedgedriver.exe' : 'msedgedriver';
   const binaryData = await getBrowser();
-  let driverPath = findDriverInPath();
+  let driverPath = findDriverInPath(fileName);
 
   if (forceDownload || !driverPath) {
     const isDowloaded = await downloadDriver(binaryData.version);
-    driverPath = await getBinary(isDowloaded);
+    driverPath = await getBinary(isDowloaded, fileName);
   }
 
   return { browserPath: binaryData.path, driverPath };
 };
 
-const paths = () => {
+export const paths = () => {
   if (Fs.existsSync(edgePathFile)) {
     const rawdata = Fs.readFileSync(edgePathFile);
     return JSON.parse(rawdata.toString()) as { browserPath: string; driverPath: string };
@@ -158,5 +132,3 @@ const paths = () => {
     return { browserPath: edgeBinaryPath, driverPath: edgeDriverPath };
   }
 };
-
-export { installDriver, paths };

@@ -2,6 +2,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import { join } from 'path';
 import * as _ from 'lodash';
+import { isWin } from './os';
 const execAsync = promisify(exec);
 const DEFAULT_EDGE_BINARY_PATH = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
 const DEFAULT_EDGE_HKEY =
@@ -45,4 +46,6 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath: string | undefined) => {
   }
 };
 
-export { getBrowserBinaryOnWin, getBrowserBinaryOnMac };
+export const getBrowserData = async(edgeBinaryPath: string | undefined) => {
+  return isWin() ? getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
+}

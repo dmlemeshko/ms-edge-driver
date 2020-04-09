@@ -30,7 +30,7 @@
   "scripts": {
     "install": "node lib/install.js",
     "build": "tsc",
-    "devBuild": "rm -rf lib bin && tsc -p .",
+    "devBuild": "rm -rf lib bin msedgedriver.zip paths.json && tsc -p .",
     "prepare": "npm run build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json"

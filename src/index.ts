@@ -17,7 +17,6 @@ let edgeDriverPath = process.env.npm_config_edgedriver_path || process.env.EDGED
 const forceDownload = process.env.npm_config_edgedriver_force_download || process.env.EDGEDRIVER_FORCE_DOWNLOAD;
 const edgePathFile = 'paths.json';
 
-const extractZipAsync = promisify(extract);
 const pipelineAsync = promisify(pipeline);
 
 const isStringNotEmpty = (value: any) => {
@@ -96,7 +95,7 @@ const getBinary = async (downloaded: boolean, fileName: string) => {
   const extractPath = resolve(mainDir, 'bin');
   Fs.mkdirSync(extractPath, { recursive: true });
 
-  await extractZipAsync(resolve(downloadedFile), { dir: extractPath });
+  await extract(resolve(downloadedFile), { dir: extractPath });
   process.stdout.write('Done. \n');
   Fs.unlinkSync(downloadedFile);
   return resolve(extractPath, fileName);

@@ -1,6 +1,6 @@
 {
   "name": "ms-chromium-edge-driver",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "edge",
     "edgedriver",
@@ -18,7 +18,7 @@
     "lib/**/*"
   ],
   "repository": "git@github.com:dmlemeshko/ms-edge-driver.git",
-  "author": "<dima.inpsired@gmail.com>",
+  "author": "<dima.inspired@gmail.com>",
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/extract-zip": "^1.6.2",

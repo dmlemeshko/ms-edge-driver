@@ -1,6 +1,3 @@
-const platform: string = process.platform;
-const arch: string = process.arch;
-
 enum OS {
   WIN32 = 'win32',
   WIN64 = 'win64',
@@ -10,6 +7,8 @@ enum OS {
 }
 
 const getOS = (): OS => {
+  const platform: string = process.platform;
+  const arch: string = process.arch;
   if (platform === 'win32') {
     return arch === 'x64' ? OS.WIN64 : OS.WIN32;
   } else if (platform === 'darwin') {
@@ -19,14 +18,12 @@ const getOS = (): OS => {
   }
 };
 
-const osName = getOS();
-
 const isWin = (): boolean => {
-  return [OS.WIN32, OS.WIN64].includes(osName);
+  return [OS.WIN32, OS.WIN64].includes(getOS());
 };
 
 const isSupportedPlatform = (): boolean => {
-  return [OS.WIN32, OS.WIN64, OS.MAC64].includes(osName);
+  return [OS.WIN32, OS.WIN64, OS.MAC64].includes(getOS());
 };
 
-export { osName, isSupportedPlatform, isWin };
+export { getOS, isSupportedPlatform, isWin };

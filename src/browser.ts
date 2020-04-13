@@ -33,8 +33,9 @@ const getBrowserBinaryOnWin = () => {
   }
 };
 
-const getBrowserBinaryOnMac = async (edgeBinaryPath: string | undefined) => {
-  const binaryPath = typeof edgeBinaryPath === 'undefined' ? DEFAULT_EDGE_BINARY_PATH : edgeBinaryPath;
+const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
+  const binaryPath =
+    typeof edgeBinaryPath === 'string' && edgeBinaryPath.length > 0 ? edgeBinaryPath : DEFAULT_EDGE_BINARY_PATH;
   try {
     const { stdout } = await execAsync(`"${binaryPath}" --version`);
     const found = stdout.toString().match(/\d{1,}.\d{1,}.\d{1,}.\d{1,}/g);
@@ -46,6 +47,6 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath: string | undefined) => {
   }
 };
 
-export const getBrowserData = async(edgeBinaryPath: string | undefined) => {
+export const getBrowserData = async (edgeBinaryPath?: string | undefined) => {
   return isWin() ? getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
-}
+};

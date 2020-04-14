@@ -11,31 +11,25 @@ const DEFAULT_EDGE_HKEY =
 const getRegistryKey = async (key: string) => {
   return new Promise((resolve, reject) => {
     const regedit = require('regedit');
-    regedit.list(key, function(err: any, result: any) {
-      if (err){
+    regedit.list(key, function (err: any, result: any) {
+      if (err) {
         return reject(err);
       } else {
         resolve(result[key]);
       }
-  })
-})
-}
+    });
+  });
+};
 
 const getBrowserBinaryOnWin = async () => {
   const fileName = 'msedge.exe';
   const edgeBinaryHKey = process.env.EDGE_HKEY || DEFAULT_EDGE_HKEY;
   try {
-    // const Key = require('windows-registry').Key;
-    // const windef = require('windows-registry').windef;
-    // key = new Key(windef.HKEY.HKEY_LOCAL_MACHINE, '', windef.KEY_ACCESS.KEY_READ);
-    // subKey = key.openSubKey(edgeBinaryHKey, windef.KEY_ACCESS.KEY_READ);
-    // const path = subKey.getValue('location') as string;
-    // const version = subKey.getValue('pv') as string;
     const key = await getRegistryKey(edgeBinaryHKey);
     //@ts-ignore
-    const path = key.values.location;
+    const path = key.values.location.value;
     //@ts-ignore
-    const version = key.values.pv;
+    const version = key.values.pv.value;
     return { path: join(path, fileName), version };
   } catch (err) {
     process.stdout.write(`MS Edge browser is not found in registry: ${err.stderr} \n`);

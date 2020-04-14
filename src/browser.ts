@@ -6,30 +6,33 @@ import { isWin } from './os';
 const execAsync = promisify(exec);
 const DEFAULT_EDGE_BINARY_PATH = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
 const DEFAULT_EDGE_HKEY =
-  '\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}';
+  'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}';
 
-const getBrowserBinaryOnWin = () => {
+const getRegistryKey = async (key: string) => {
+  return new Promise((resolve, reject) => {
+    const regedit = require('regedit');
+    regedit.list(key, function (err: any, result: any) {
+      if (err) {
+        return reject(err);
+      } else {
+        resolve(result[key]);
+      }
+    });
+  });
+};
+
+const getBrowserBinaryOnWin = async () => {
   const fileName = 'msedge.exe';
   const edgeBinaryHKey = process.env.EDGE_HKEY || DEFAULT_EDGE_HKEY;
-  let key;
-  let subKey;
   try {
-    const Key = require('windows-registry').Key;
-    const windef = require('windows-registry').windef;
-    key = new Key(windef.HKEY.HKEY_LOCAL_MACHINE, '', windef.KEY_ACCESS.KEY_READ);
-    subKey = key.openSubKey(edgeBinaryHKey, windef.KEY_ACCESS.KEY_READ);
-    const path = subKey.getValue('location') as string;
-    const version = subKey.getValue('pv') as string;
+    const key = await getRegistryKey(edgeBinaryHKey);
+    //@ts-ignore
+    const path = key.values.location.value;
+    //@ts-ignore
+    const version = key.values.pv.value;
     return { path: join(path, fileName), version };
   } catch (err) {
     process.stdout.write(`MS Edge browser is not found in registry: ${err.stderr} \n`);
-  } finally {
-    if (subKey) {
-      subKey.close();
-    }
-    if (key) {
-      key.close();
-    }
   }
 };
 
@@ -48,5 +51,5 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
 };
 
 export const getBrowserData = async (edgeBinaryPath?: string | undefined) => {
-  return isWin() ? getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
+  return isWin() ? await getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
 };

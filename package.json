@@ -42,11 +42,11 @@
   },
   "dependencies": {
     "extract-zip": "^2.0.0",
-    "got": "^10.6.0",
-    "lodash": "4.17.15",
-    "tslint": "^6.1.0",
+    "got": "^10.7.0",
+    "lodash": "^4.17.15",
+    "regedit": "^3.0.3",
+    "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
-    "util": "^0.12.2",
-    "windows-registry": "^0.1.5"
+    "util": "^0.12.2"
   }
 }

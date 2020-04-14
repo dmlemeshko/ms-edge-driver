@@ -100,11 +100,13 @@ const getBinary = async (downloaded: boolean) => {
 
   const extracted = Fs.readdirSync(extractPath);
 
-  return resolve(extractPath, extracted[0]);
+  const fileName = extracted.filter((name) => name.toLowerCase().includes('msedgedriver'))[0];
+
+  return resolve(extractPath, fileName);
 };
 
-const findDriverInPath = (fileName: string) => {
-  const driverPath = resolve(mainDir, driverFolder, fileName);
+const findDriverInPath = () => {
+  const driverPath = resolve(mainDir, driverFolder, isWin() ? 'msedgedriver.exe' : 'msedgedriver');
   return Fs.existsSync(driverPath) ? driverPath : null;
 };
 
@@ -116,12 +118,10 @@ export const installDriver = async () => {
   } else {
     const edgeDriverVersion = process.env.npm_config_edgedriver_version || process.env.EDGEDRIVER_VERSION;
     const forceDownload = process.env.npm_config_edgedriver_force_download || process.env.EDGEDRIVER_FORCE_DOWNLOAD;
-    const fileName = isWin() ? 'msedgedriver.exe' : 'msedgedriver';
-
     const binaryData = await getBrowser(edgeBinaryPath, edgeDriverVersion);
 
     if (binaryData) {
-      let driverPath = findDriverInPath(fileName);
+      let driverPath = findDriverInPath();
 
       if (forceDownload || !driverPath) {
         const isDowloaded = await downloadDriver(binaryData.version);

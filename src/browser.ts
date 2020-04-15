@@ -51,5 +51,5 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
 };
 
 export const getBrowserData = async (edgeBinaryPath?: string | undefined) => {
-  return isWin() ? await getBrowserBinaryOnWin() : await getBrowserBinaryOnMac(edgeBinaryPath);
+  return await (isWin() ? getBrowserBinaryOnWin() : getBrowserBinaryOnMac(edgeBinaryPath));
 };

@@ -71,7 +71,6 @@ const downloadDriver = async (version: string) => {
   process.stdout.write(`Downloading MS Edge Driver ${version}...\n`);
 
   const downloadUrl = `${cdnUrl}/${version}/edgedriver_${getOS()}.zip`;
-  const mainDir = resolve(__dirname, '..');
   const tempDownloadedFile = resolve(mainDir, outFile);
   try {
     await pipelineAsync(got.stream(new URL(downloadUrl)), Fs.createWriteStream(tempDownloadedFile));

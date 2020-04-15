@@ -11,7 +11,7 @@ const DEFAULT_EDGE_HKEY =
 const getRegistryKey = async (key: string) => {
   return new Promise((resolve, reject) => {
     const regedit = require('regedit');
-    regedit.list(key, function (err: any, result: any) {
+    regedit.list(key, (err: any, result: any) => {
       if (err) {
         return reject(err);
       } else {
@@ -26,9 +26,9 @@ const getBrowserBinaryOnWin = async () => {
   const edgeBinaryHKey = process.env.EDGE_HKEY || DEFAULT_EDGE_HKEY;
   try {
     const key = await getRegistryKey(edgeBinaryHKey);
-    //@ts-ignore
+    // @ts-ignore
     const path = key.values.location.value;
-    //@ts-ignore
+    // @ts-ignore
     const version = key.values.pv.value;
     return { path: join(path, fileName), version };
   } catch (err) {

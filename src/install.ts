@@ -8,7 +8,7 @@ const downloadOnInstall =
 if (downloadOnInstall) {
   installDriver().then((paths) => {
     process.stdout.write(`MS Edge driver is set: ${JSON.stringify(paths)}\n`);
-    Fs.writeFile(edgePathFile, JSON.stringify(paths), function (err: any) {
+    Fs.writeFile(edgePathFile, JSON.stringify(paths), (err: any) => {
       if (err) return process.stdout.write(`${err}\n`);
     });
   });

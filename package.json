@@ -10,9 +10,6 @@
   ],
   "description": "NPM wrapper for Webdriver Chromium-based Edge driver",
   "main": "lib/index.js",
-  "bin": {
-    "msedgedriver": "./bin/msedgedriver"
-  },
   "typings": "lib/index.d.ts",
   "files": [
     "lib/**/*"
@@ -21,7 +18,7 @@
   "author": "<dima.inspired@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "install": "node lib/install.js",
+    "postinstall": "node lib/install.js",
     "test": "jest",
     "build": "rm -rf lib bin msedgedriver.zip paths.json && tsc -p .",
     "buildWin": "del /s/q lib bin msedgedriver.zip paths.json & tsc -p .",

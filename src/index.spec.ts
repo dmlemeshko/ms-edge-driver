@@ -36,7 +36,7 @@ describe('Running module on non-supported platform', function () {
     mockExit.mockRestore();
   });
 
-  it('should exit with 1 and correct messages', async function () {
+  test('should exit with 1 and correct messages', async function () {
     mockExit = mockProcessExit();
     mockStdout = mockProcessStdout();
     const paths = await installDriver();

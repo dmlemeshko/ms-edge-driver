@@ -5,7 +5,7 @@ describe('Fetching browser binary', function () {
   let mockStdout: jest.SpyInstance;
   const edgeWrongPath = '/local/Applications/Edge';
 
-  it('should return correct path and version', async function () {
+  test('should return correct path and version', async function () {
     mockStdout = mockProcessStdout();
     const binaryData = await getBrowserData();
     expect(binaryData).toHaveProperty('path', '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge');
@@ -14,7 +14,7 @@ describe('Fetching browser binary', function () {
     expect(mockStdout).toBeCalledTimes(0);
   });
 
-  it('should return undefined and error message with incorrect path', async function () {
+  test('should return undefined and error message with incorrect path', async function () {
     mockStdout = mockProcessStdout();
     const binaryData = await getBrowserData(edgeWrongPath);
     expect(binaryData).toEqual(undefined);

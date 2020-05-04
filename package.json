@@ -20,6 +20,7 @@
   "scripts": {
     "postinstall": "node lib/install.js",
     "test": "jest",
+    "coverage": "jest --coverage",
     "build": "rm -rf lib bin msedgedriver.zip paths.json && tsc -p .",
     "buildWin": "del /s/q lib bin msedgedriver.zip paths.json & tsc -p .",
     "prepare": "npm run build",

@@ -12,7 +12,7 @@ describe('Fetching browser binary', function () {
     expect(binaryData).toHaveProperty('version');
     expect(binaryData?.version).toBeDefined();
     expect(mockStdout).toBeCalledTimes(0);
-  });
+  }, 30000);
 
   test('should return undefined and error message with incorrect path', async function () {
     mockStdout = mockProcessStdout();

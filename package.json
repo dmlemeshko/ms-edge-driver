@@ -31,7 +31,7 @@
   "pre-commit": ["precommit-msg", "lint"],
   "dependencies": {
     "extract-zip": "^2.0.0",
-    "got": "^11.3.0",
+    "got": "^11.6.0",
     "lodash": "^4.17.15",
     "regedit": "^3.0.3",
     "util": "^0.12.2"
@@ -40,14 +40,14 @@
     "@types/extract-zip": "^1.6.2",
     "@types/got": "^9.6.9",
     "@types/jest": "^26.0.10",
-    "@types/lodash":"^4.14.149",
-    "@types/node": "^14.0.11",
+    "@types/lodash": "^4.14.161",
+    "@types/node": "^14.6.4",
     "jest": "^26.4.2",
     "jest-mock-process": "^1.4.0",
     "pre-commit": "^1.2.2",
     "ts-jest": "^26.2.0",
     "tslint": "^6.1.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.9.5"
+    "typescript": "^4.0.2"
   }
 }

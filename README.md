@@ -81,6 +81,18 @@ EDGEDRIVER_VERSION=80.0.361.103
 
 If both browser binary path and version are provided, the package will skip binary fetch step and start with the driver download.
 
+By default, the version of the actually downloaded driver is the latest minor version for EDGEDRIVER_VERSION. To download exactly the same version as EDGEDRIVER_VERSION, use the npm config property `npm_config_use_exact_edgedriver_version`
+
+```shell
+npm install ms-chromium-edge-driver --npm_config_use_exact_edgedriver_version=1
+```
+
+Another option is to use the PATH variable `USE_EXACT_EDGE_DRIVER_VERSION`
+
+```shell
+USE_EXACT_EDGE_DRIVER_VERSION=1
+```
+
 ## Custom driver binary
 
 To get the msedgedriver from the filesystem instead of a web request use the npm config property `npm_config_edgedriver_path`.

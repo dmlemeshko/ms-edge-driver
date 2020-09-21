@@ -64,10 +64,12 @@ const getBrowser = async (edgeBinaryPath: string | undefined, edgeDriverVersion:
 };
 
 const downloadDriver = async (version: string) => {
-  const versionMatcher = version === 'LATEST' ? 'LATEST_STABLE' : `LATEST_RELEASE_${version.split('.')[0]}`;
-  const response = await got.get(`${cdnUrl}/${versionMatcher}`);
-
-  version = response.body.replace(/[^\d.]/g, '');
+  const useExactEdgeDriverVersion = process.env.npm_config_use_exact_edgedriver_version || process.env.USE_EXACT_EDGE_DRIVER_VERSION;
+  if (!useExactEdgeDriverVersion) {
+    const versionMatcher = version === 'LATEST' ? 'LATEST_STABLE' : `LATEST_RELEASE_${version.split('.')[0]}`;
+    const response = await got.get(`${cdnUrl}/${versionMatcher}`);
+    version = response.body.replace(/[^\d.]/g, '');
+  }
   process.stdout.write(`Downloading MS Edge Driver ${version}...\n`);
 
   const downloadUrl = `${cdnUrl}/${version}/edgedriver_${getOS()}.zip`;

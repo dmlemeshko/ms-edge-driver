@@ -71,7 +71,8 @@ describe('Setting explicitly browser and driver path', () => {
 
 describe('Downloading driver', () => {
   let mockStdout: jest.SpyInstance;
-  const customVersion = '78';
+  const majorVersion = '85';
+  const fullVersion = '85.0.564.63'
 
   beforeEach(() => {
     cleanup();
@@ -93,10 +94,10 @@ describe('Downloading driver', () => {
   );
 
   test(
-    'should download specific version and return correct paths',
+    'should download driver with major version and return correct paths',
     async () => {
       mockStdout = mockProcessStdout();
-      process.env.EDGEDRIVER_VERSION = customVersion;
+      process.env.EDGEDRIVER_VERSION = majorVersion;
       const paths = await installDriver();
       expect(Fs.existsSync(filePath)).toBeTruthy();
       expect(paths).toEqual({
@@ -104,7 +105,26 @@ describe('Downloading driver', () => {
         driverPath: filePath,
       });
       expect(mockStdout).toBeCalledTimes(5);
-      expect(mockStdout.mock.calls.toString()).toContain(`Custom driver version defined: ${customVersion}`);
+      expect(mockStdout.mock.calls.toString()).toContain(`Custom driver version defined: ${majorVersion}`);
+      expect(mockStdout.mock.calls.toString()).toContain(`Downloading MS Edge Driver ${fullVersion}...`);
+    },
+    60 * 1000,
+  );
+
+  test(
+    'should download driver with full version and return correct paths',
+    async () => {
+      mockStdout = mockProcessStdout();
+      process.env.EDGEDRIVER_VERSION = fullVersion;
+      const paths = await installDriver();
+      expect(Fs.existsSync(filePath)).toBeTruthy();
+      expect(paths).toEqual({
+        browserPath: '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+        driverPath: filePath,
+      });
+      expect(mockStdout).toBeCalledTimes(5);
+      expect(mockStdout.mock.calls.toString()).toContain(`Custom driver version defined: ${fullVersion}`);
+      expect(mockStdout.mock.calls.toString()).toContain(`Downloading MS Edge Driver ${fullVersion}...`);
     },
     60 * 1000,
   );

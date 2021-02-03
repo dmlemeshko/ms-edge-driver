@@ -72,7 +72,7 @@ describe('Setting explicitly browser and driver path', () => {
 describe('Downloading driver', () => {
   let mockStdout: jest.SpyInstance;
   const majorVersion = '85';
-  const fullVersion = '85.0.564.63'
+  const fullVersion = '85.0.564.63';
 
   beforeEach(() => {
     cleanup();

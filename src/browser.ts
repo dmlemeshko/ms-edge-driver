@@ -1,17 +1,19 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { join } from 'path';
-import * as _ from 'lodash';
 import { isWin } from './os';
 const execAsync = promisify(exec);
 const DEFAULT_EDGE_BINARY_PATH = '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge';
 const DEFAULT_EDGE_HKEY =
   'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}';
 
-const getRegistryKey = async (key: string) => {
+type RegistryKey = { values: { location: { value: string }; pv: { value: string } } };
+
+const getRegistryKey = async (key: string): Promise<RegistryKey> => {
   return new Promise((resolve, reject) => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const regedit = require('regedit');
-    regedit.list(key, (err: any, result: any) => {
+    regedit.list(key as string, (err: NodeJS.ErrnoException | null, result: { [key: string]: RegistryKey }) => {
       if (err) {
         return reject(err);
       } else {
@@ -26,9 +28,7 @@ const getBrowserBinaryOnWin = async () => {
   const edgeBinaryHKey = process.env.EDGE_HKEY || DEFAULT_EDGE_HKEY;
   try {
     const key = await getRegistryKey(edgeBinaryHKey);
-    // @ts-ignore
     const path = key.values.location.value;
-    // @ts-ignore
     const version = key.values.pv.value;
     return { path: join(path, fileName), version };
   } catch (err) {
@@ -50,6 +50,14 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
   }
 };
 
-export const getBrowserData = async (edgeBinaryPath?: string | undefined) => {
+export const getBrowserData = async (
+  edgeBinaryPath?: string | undefined,
+): Promise<
+  | {
+      path: string;
+      version: string;
+    }
+  | undefined
+> => {
   return await (isWin() ? getBrowserBinaryOnWin() : getBrowserBinaryOnMac(edgeBinaryPath));
 };

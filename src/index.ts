@@ -16,7 +16,7 @@ const edgePathFile = 'paths.json';
 
 const pipelineAsync = promisify(pipeline);
 
-const isStringHasValue = (value: any) => {
+const isStringHasValue = (value: string | undefined) => {
   return _.isString(value) && value.length > 0;
 };
 
@@ -111,7 +111,7 @@ const findDriverInPath = () => {
   return Fs.existsSync(driverPath) ? driverPath : null;
 };
 
-export const installDriver = async () => {
+export const installDriver = async (): Promise<{ browserPath: string; driverPath: string }> => {
   const edgeBinaryPath = process.env.npm_config_edge_binary_path || process.env.EDGE_BINARY_PATH;
   const edgeDriverPath = process.env.npm_config_edgedriver_path || process.env.EDGEDRIVER_PATH;
   if (edgeBinaryPath && edgeDriverPath && isStringHasValue(edgeBinaryPath) && isStringHasValue(edgeDriverPath)) {
@@ -137,7 +137,7 @@ export const installDriver = async () => {
   }
 };
 
-export const paths = () => {
+export const paths = (): { browserPath: string | undefined; driverPath: string | undefined } => {
   if (Fs.existsSync(edgePathFile)) {
     const rawdata = Fs.readFileSync(edgePathFile);
     return JSON.parse(rawdata.toString()) as { browserPath: string; driverPath: string };

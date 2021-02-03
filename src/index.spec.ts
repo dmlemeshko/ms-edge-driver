@@ -11,7 +11,7 @@ const cleanup = () => {
     Fs.unlinkSync(filePath);
   }
   if (Fs.existsSync(binPath)) {
-    Fs.rmdirSync(binPath);
+    Fs.rmdirSync(binPath, { recursive: true });
   }
 };
 
@@ -106,7 +106,7 @@ describe('Downloading driver', () => {
       });
       expect(mockStdout).toBeCalledTimes(5);
       expect(mockStdout.mock.calls.toString()).toContain(`Custom driver version defined: ${majorVersion}`);
-      expect(mockStdout.mock.calls.toString()).toContain(`Downloading MS Edge Driver ${fullVersion}...`);
+      expect(mockStdout.mock.calls.toString()).toContain(`Downloading MS Edge Driver ${majorVersion}`);
     },
     60 * 1000,
   );

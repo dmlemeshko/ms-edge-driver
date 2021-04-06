@@ -36,8 +36,7 @@
     "extract-zip": "^2.0.1",
     "got": "^11.8.2",
     "lodash": "^4.17.21",
-    "regedit": "^3.0.3",
-    "util": "^0.12.3"
+    "regedit": "^3.0.3"
   },
   "devDependencies": {
     "@types/extract-zip": "^1.6.2",

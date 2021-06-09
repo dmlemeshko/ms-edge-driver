@@ -39,7 +39,7 @@
     "regedit": "^3.0.3"
   },
   "devDependencies": {
-    "@types/extract-zip": "^1.6.2",
+    "@types/extract-zip": "^2.0.1",
     "@types/got": "^9.6.11",
     "@types/jest": "^26.0.22",
     "@types/lodash": "^4.14.168",

@@ -631,10 +631,12 @@
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
 
-"@types/extract-zip@^1.6.2":
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/@types/extract-zip/-/extract-zip-1.6.2.tgz#5c7eb441c41136167a42b88b64051e6260c29e86"
-  integrity sha1-XH60QcQRNhZ6QriLZAUeYmDCnoY=
+"@types/extract-zip@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/extract-zip/-/extract-zip-2.0.1.tgz#50a44968d8cfd683da47aeafd83899f252c9099b"
+  integrity sha512-Rvy84OCUrbGquSMH2a2ifbHB3CEu95LguiihLf0gc4uFaZ7psB6Khq+s8a7rsPGztSlxihu1om7+ZVxBh8iJcg==
+  dependencies:
+    extract-zip "*"
 
 "@types/got@^9.6.11":
   version "9.6.11"
@@ -1840,7 +1842,7 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-zip@^2.0.1:
+extract-zip@*, extract-zip@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/extract-zip/-/extract-zip-2.0.1.tgz#663dca56fe46df890d5f131ef4a06d22bb8ba13a"
   integrity sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==

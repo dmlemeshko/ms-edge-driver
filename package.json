@@ -41,7 +41,7 @@
   "devDependencies": {
     "@types/extract-zip": "^2.0.1",
     "@types/got": "^9.6.11",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.170",
     "@types/node": "^15.12.2",
     "@typescript-eslint/eslint-plugin": "^4.26.1",

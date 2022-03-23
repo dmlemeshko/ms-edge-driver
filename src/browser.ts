@@ -31,8 +31,8 @@ const getBrowserBinaryOnWin = async () => {
     const path = key.values.location.value;
     const version = key.values.pv.value;
     return { path: join(path, fileName), version };
-  } catch (err) {
-    process.stdout.write(`MS Edge browser is not found in registry: ${err.stderr} \n`);
+  } catch (err: any) {
+    process.stdout.write(`MS Edge browser is not found in registry: ${err?.stderr} \n`);
   }
 };
 
@@ -45,8 +45,8 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
     if (found) {
       return { path: binaryPath, version: found[0] };
     }
-  } catch (err) {
-    process.stdout.write(`MS Edge browser is not found in Applications: ${err.stderr} \n`);
+  } catch (err: any) {
+    process.stdout.write(`MS Edge browser is not found in Applications: ${err?.stderr} \n`);
   }
 };
 

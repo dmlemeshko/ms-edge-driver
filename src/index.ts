@@ -8,7 +8,8 @@ import { pipeline } from 'stream';
 import * as extract from 'extract-zip';
 import { getBrowserData } from './browser';
 import { getOS, isSupportedPlatform, isWin } from './os';
-const cdnUrl = process.env.npm_config_edgedriver_cdnurl || process.env.EDGEDRIVER_CDNURL || 'https://msedgedriver.azureedge.net';
+const cdnUrl =
+  process.env.npm_config_edgedriver_cdnurl || process.env.EDGEDRIVER_CDNURL || 'https://msedgedriver.azureedge.net';
 const mainDir = resolve(__dirname, '..');
 const outFile = 'msedgedriver.zip';
 const driverFolder = 'bin';

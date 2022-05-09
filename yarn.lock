@@ -2987,9 +2987,9 @@ readable-stream@^2.2.2:
     util-deprecate "~1.0.1"
 
 regedit@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/regedit/-/regedit-5.0.0.tgz#7ec444ef027cc704e104fae00586f84752291116"
-  integrity sha512-4uSqj6Injwy5TPtXlE+1F/v2lOW/bMfCqNIAXyib4aG1ZwacG69oyK/yb6EF8KQRMhz7YINxkD+/HHc6i7YJtA==
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/regedit/-/regedit-5.1.1.tgz#4ee55c00fc97f1dc365504953ea0570fb6dd8687"
+  integrity sha512-NJ2OZ14czryt3RiQyMM/nptaiu0bF1CT+YVw0PBziMrLJyq8pdmIAvupi9E+NPWJLDJtyHDoKs5g5wcbP8ANIg==
   dependencies:
     debug "^4.1.0"
     if-async "^3.7.4"

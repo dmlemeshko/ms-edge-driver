@@ -59,7 +59,7 @@ const getBrowser = async (edgeBinaryPath: string | undefined, edgeDriverVersion:
       }
     }
   } else {
-    process.stdout.write(`MS does not provide driver for ${getOS()} platform\n`);
+    process.stdout.write(`MS does not provide driver for your platform - ${process.platform}:${process.arch}\n`);
     process.exit(1);
   }
 };

@@ -19,7 +19,7 @@ describe('Running module on non-supported platform', function () {
   let mockStdout: jest.SpyInstance;
   let mockExit: jest.SpyInstance;
   const orginalOS = process.platform;
-  const notSupportedOS = 'linux';
+  const notSupportedOS = 'mac32';
 
   beforeAll(function () {
     // redefine process.platform
@@ -44,7 +44,7 @@ describe('Running module on non-supported platform', function () {
     expect(paths).toEqual(undefined);
     expect(mockStdout).toBeCalledTimes(2);
     expect(mockStdout.mock.calls).toEqual([
-      [`MS does not provide driver for ${notSupportedOS} platform\n`],
+      [`MS does not provide driver for your platform - ${notSupportedOS}:${process.arch}\n`],
       ['Error getting browser data'],
     ]);
   });

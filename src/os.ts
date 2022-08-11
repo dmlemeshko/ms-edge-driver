@@ -3,7 +3,7 @@ enum OS {
   WIN64 = 'win64',
   MAC64 = 'mac64',
   MAC_ARM64 = 'mac64',
-  LINUX = 'linux',
+  LINUX64 = 'linux64',
   UNSUPPORTED = 'unsupported',
 }
 
@@ -16,9 +16,9 @@ const getOS = (): OS => {
   if (platform === 'darwin') {
     if (arch === 'x64') return OS.MAC64;
     if (arch === 'arm64') return OS.MAC_ARM64;
-    return OS.UNSUPPORTED;
   }
-  return OS.LINUX;
+  if (platform === 'linux' && arch === 'x64') return OS.LINUX64;
+  return OS.UNSUPPORTED;
 };
 
 const isWin = (): boolean => {
@@ -26,7 +26,7 @@ const isWin = (): boolean => {
 };
 
 const isSupportedPlatform = (): boolean => {
-  return [OS.WIN32, OS.WIN64, OS.MAC64, OS.MAC_ARM64].includes(getOS());
+  return [OS.WIN32, OS.WIN64, OS.MAC64, OS.MAC_ARM64, OS.LINUX64].includes(getOS());
 };
 
 export { getOS, isSupportedPlatform, isWin };

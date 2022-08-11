@@ -50,6 +50,19 @@ const getBrowserBinaryOnMac = async (edgeBinaryPath?: string | undefined) => {
   }
 };
 
+const getBrowserBinaryOnLinux = async () => {
+  try {
+    let { stdout: path } = await execAsync(`which microsoft-edge`);
+    // which includes a newline that we should get rid of
+    path = path.trim();
+    const { stdout: fullVer } = await execAsync(`microsoft-edge --version`);
+    const match = fullVer.toString().match(/\d{1,}.\d{1,}.\d{1,}.\d{1,}/g);
+    if (match) return { path, version: match[0] };
+  } catch (err) {
+    process.stdout.write('MS Edge Browser was not found');
+  }
+};
+
 export const getBrowserData = async (
   edgeBinaryPath?: string | undefined,
 ): Promise<
@@ -59,5 +72,7 @@ export const getBrowserData = async (
     }
   | undefined
 > => {
-  return await (isWin() ? getBrowserBinaryOnWin() : getBrowserBinaryOnMac(edgeBinaryPath));
+  if (isWin()) return await getBrowserBinaryOnWin();
+  if (process.platform === 'darwin') return await getBrowserBinaryOnMac(edgeBinaryPath);
+  if (process.platform === 'linux') return await getBrowserBinaryOnLinux();
 };
